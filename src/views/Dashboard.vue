@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="paciente in listapacientes" :key="paciente.PacienteId">
+      <tr v-for="paciente in listapacientes" :key="paciente.PacienteId" v-on:click="editar(paciente.PacienteId)">
         <td>{{paciente.PacienteId}}</td>
         <td>{{paciente.Nombre}}</td>
         <td>{{paciente.DNI}}</td>
@@ -43,9 +43,14 @@ export default {
             paginas:1
         }
     },
-    components:{
-        Header,
-        Footer
+        components:{
+            Header,
+            Footer
+        },
+    methods:{
+        editar(id){
+            this.$router.push('/editar/' + id)
+        }
     },
     mounted: function(){
         let direccion = "http://localhost/APIPHPMYSQL/pacientes?page=" + this.paginas;
