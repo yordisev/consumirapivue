@@ -1,140 +1,181 @@
 <template>
   <div class="main">
-    
-    
     <div class="container">
-<center>
-<div class="middle">
-      <div id="login">
+      <center>
+        <div class="middle">
+          <div id="login">
+            <form v-on:submit.prevent="login">
+              <fieldset class="clearfix">
+                <p>
+                  <span class="fa fa-user"></span
+                  ><input
+                    type="text"
+                    Placeholder="Usuario"
+                    v-model="usuario"
+                    required
+                  />
+                </p>
+                <!-- JS because of IE support; better: placeholder="Username" -->
+                <p>
+                  <span class="fa fa-lock"></span
+                  ><input
+                    type="password"
+                    Placeholder="Password"
+                    v-model="password"
+                    required
+                  />
+                </p>
+                <!-- JS because of IE support; better: placeholder="Password" -->
 
-        <form v-on:submit.prevent="login">
+                <div>
+                  <div class="alert alert-danger" role="alert" v-if="error">
+                    {{ error_msg }}
+                  </div>
+                  <span
+                    style="width:60%; text-align:right;  display: inline-block;"
+                    ><input type="submit" value="Iniciar Sesion"
+                  /></span>
+                </div>
+              </fieldset>
+              <div class="clearfix"></div>
+            </form>
 
-          <fieldset class="clearfix">
+            <div class="clearfix"></div>
+          </div>
+          <!-- end login -->
+          <div class="logo">
+            LOGO
 
-            <p ><span class="fa fa-user"></span><input type="text"  Placeholder="Usuario" v-model="usuario" required></p> <!-- JS because of IE support; better: placeholder="Username" -->
-            <p><span class="fa fa-lock"></span><input type="password"  Placeholder="Password" v-model="password" required></p> <!-- JS because of IE support; better: placeholder="Password" -->
-            
-             <div>
-                               <div class="alert alert-danger" role="alert" v-if="error">
-  {{error_msg}}
-</div>
-                                <span style="width:60%; text-align:right;  display: inline-block;"><input type="submit" value="Iniciar Sesion"></span>
-                            </div>
-
-          </fieldset>
-<div class="clearfix"></div>
-        </form>
-
-        <div class="clearfix"></div>
-
-      </div> <!-- end login -->
-      <div class="logo">LOGO
-          
-          <div class="clearfix"></div>
-      </div>
-      
-      </div>
-</center>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </center>
     </div>
-
-</div>
+  </div>
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
-  
-  components: {
-
-  },
-  data: function(){
+  name:"Home",
+  components: {},
+  data: function() {
     return {
-      usuario:"",
-      password:"",
-      error:"",
-      error_msg:"",
-    }
+      usuario: "",
+      password: "",
+      error: "",
+      error_msg: "",
+    };
   },
-  methods:{
-    login(){
+  methods: {
+    login() {
       let loginacceso = {
-        "usuario":this.usuario,
-        "password" : this.password
+        usuario: this.usuario,
+        password: this.password,
       };
-      axios.post('http://localhost/APIPHPMYSQL/auth',loginacceso)
-      .then(data =>{
-        if (data.data.status == "ok"){
-          console.log("todo correcto");
-        } else {
-          this.error = true;
-          this.error_msg = data.data.result.error_msg;
-        }
-      });
-
-    }
-  }
-}
+      axios
+        .post("http://localhost/APIPHPMYSQL/auth", loginacceso)
+        .then((data) => {
+          if (data.data.status == "ok") {
+            localStorage.token = data.data.result.token;
+            this.$router.push('dashboard');
+          } else {
+            this.error = true;
+            this.error_msg = data.data.result.error_msg;
+          }
+        });
+    },
+  },
+};
 </script>
 <style scoped>
-
-
-div.main{
-    background: #0264d6; /* Old browsers */
-background: -moz-radial-gradient(center, ellipse cover,  #0264d6 1%, #1c2b5a 100%); /* FF3.6+ */
-background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(1%,#0264d6), color-stop(100%,#1c2b5a)); /* Chrome,Safari4+ */
-background: -webkit-radial-gradient(center, ellipse cover,  #0264d6 1%,#1c2b5a 100%); /* Chrome10+,Safari5.1+ */
-background: -o-radial-gradient(center, ellipse cover,  #0264d6 1%,#1c2b5a 100%); /* Opera 12+ */
-background: -ms-radial-gradient(center, ellipse cover,  #0264d6 1%,#1c2b5a 100%); /* IE10+ */
-background: radial-gradient(ellipse at center,  #0264d6 1%,#1c2b5a 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0264d6', endColorstr='#1c2b5a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-height:calc(100vh);
-width:100%;
+div.main {
+  background: #0264d6; /* Old browsers */
+  background: -moz-radial-gradient(
+    center,
+    ellipse cover,
+    #0264d6 1%,
+    #1c2b5a 100%
+  ); /* FF3.6+ */
+  background: -webkit-gradient(
+    radial,
+    center center,
+    0px,
+    center center,
+    100%,
+    color-stop(1%, #0264d6),
+    color-stop(100%, #1c2b5a)
+  ); /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(
+    center,
+    ellipse cover,
+    #0264d6 1%,
+    #1c2b5a 100%
+  ); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(
+    center,
+    ellipse cover,
+    #0264d6 1%,
+    #1c2b5a 100%
+  ); /* Opera 12+ */
+  background: -ms-radial-gradient(
+    center,
+    ellipse cover,
+    #0264d6 1%,
+    #1c2b5a 100%
+  ); /* IE10+ */
+  background: radial-gradient(
+    ellipse at center,
+    #0264d6 1%,
+    #1c2b5a 100%
+  ); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0264d6', endColorstr='#1c2b5a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  height: calc(100vh);
+  width: 100%;
 }
 
 [class*="fontawesome-"]:before {
-  font-family: 'FontAwesome', sans-serif;
+  font-family: "FontAwesome", sans-serif;
 }
 
 /* ---------- GENERAL ---------- */
 
 * {
   box-sizing: border-box;
-    margin:0px auto;
+  margin: 0px auto;
 
   /* &:before,
   &:after {
     box-sizing: border-box;
   } */
-
 }
 
 body {
-   
-    color: #606468;
-  font: 87.5%/1.5em 'Open Sans', sans-serif;
+  color: #606468;
+  font: 87.5%/1.5em "Open Sans", sans-serif;
   margin: 0;
 }
 
 a {
-	color: #eee;
-	text-decoration: none;
+  color: #eee;
+  text-decoration: none;
 }
 
 a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 input {
-	border: none;
-	font-family: 'Open Sans', Arial, sans-serif;
-	font-size: 14px;
-	line-height: 1.5em;
-	padding: 0;
-	-webkit-appearance: none;
+  border: none;
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5em;
+  padding: 0;
+  -webkit-appearance: none;
 }
 
 p {
-	line-height: 1.5em;
+  line-height: 1.5em;
 }
 
 .clearfix {
@@ -149,7 +190,6 @@ p {
   &:after {
     clear: both;
   } */
-
 }
 
 .container {
@@ -161,53 +201,54 @@ p {
 
 /* ---------- LOGIN ---------- */
 
-#login form{
-	width: 250px;
+#login form {
+  width: 250px;
 }
-#login, .logo{
-    display:inline-block;
-    width:40%;
+#login,
+.logo {
+  display: inline-block;
+  width: 40%;
 }
-#login{
-border-right:1px solid #fff;
+#login {
+  border-right: 1px solid #fff;
   padding: 0px 22px;
   width: 59%;
 }
-.logo{
-color:#fff;
-font-size:50px;
+.logo {
+  color: #fff;
+  font-size: 50px;
   line-height: 125px;
 }
 
 #login form span.fa {
-	background-color: #fff;
-	border-radius: 3px 0px 0px 3px;
-	color: #000;
-	display: block;
-	float: left;
-	height: 50px;
-    font-size:24px;
-	line-height: 50px;
-	text-align: center;
-	width: 50px;
+  background-color: #fff;
+  border-radius: 3px 0px 0px 3px;
+  color: #000;
+  display: block;
+  float: left;
+  height: 50px;
+  font-size: 24px;
+  line-height: 50px;
+  text-align: center;
+  width: 50px;
 }
 
 #login form input {
-	height: 50px;
+  height: 50px;
 }
-fieldset{
-    padding:0;
-    border:0;
-    margin: 0;
-
+fieldset {
+  padding: 0;
+  border: 0;
+  margin: 0;
 }
-#login form input[type="text"], input[type="password"] {
-	background-color: #fff;
-	border-radius: 0px 3px 3px 0px;
-	color: #000;
-	margin-bottom: 1em;
-	padding: 0 16px;
-	width: 200px;
+#login form input[type="text"],
+input[type="password"] {
+  background-color: #fff;
+  border-radius: 0px 3px 3px 0px;
+  color: #000;
+  margin-bottom: 1em;
+  padding: 0 16px;
+  width: 200px;
 }
 
 #login form input[type="submit"] {
@@ -224,15 +265,15 @@ fieldset{
 }
 
 #login form input[type="submit"]:hover {
-	background-color: #d44179;
+  background-color: #d44179;
 }
 
 #login > p {
-	text-align: center;
+  text-align: center;
 }
 
 #login > p span {
-	padding-left: 5px;
+  padding-left: 5px;
 }
 .middle {
   display: flex;
