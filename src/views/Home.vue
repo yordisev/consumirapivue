@@ -15,8 +15,9 @@
             <p><span class="fa fa-lock"></span><input type="password"  Placeholder="Password" v-model="password" required></p> <!-- JS because of IE support; better: placeholder="Password" -->
             
              <div>
-                                <span style="width:48%; text-align:left;  display: inline-block;"><a class="small-text" href="#">Forgot
-                                password?</a></span>
+                               <div class="alert alert-danger" role="alert" v-if="error">
+  {{error_msg}}
+</div>
                                 <span style="width:60%; text-align:right;  display: inline-block;"><input type="submit" value="Iniciar Sesion"></span>
                             </div>
 
@@ -40,7 +41,7 @@
 </template>
 
 <script>
-
+import axios from "axios"
 export default {
   
   components: {
@@ -56,7 +57,20 @@ export default {
   },
   methods:{
     login(){
-      console.log(this.usuario)
+      let loginacceso = {
+        "usuario":this.usuario,
+        "password" : this.password
+      };
+      axios.post('http://localhost/APIPHPMYSQL/auth',loginacceso)
+      .then(data =>{
+        if (data.data.status == "ok"){
+          console.log("todo correcto");
+        } else {
+          this.error = true;
+          this.error_msg = data.data.result.error_msg;
+        }
+      });
+
     }
   }
 }
