@@ -61,7 +61,7 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="form-group m-2">
                       <button type="button" class="btn btn-primary" v-on:click="guardar()" >Guardar</button>
                       <button type="button" class="btn btn-dark margen" v-on:click="salir()"  >Salir</button>
                     </div> 
@@ -104,11 +104,11 @@ export default {
             axios.post("http://localhost/APIPHPMYSQL/pacientes",this.pacientesform)
             .then(data =>{
                 console.log(data);
-                this.makeToast("Hecho","Paciente creado","success");
+                this.makeToast("Hecho","Paciente creado","primary");
                 this.$router.push("/dashboard");
             }).catch( e =>{
                 console.log(e);
-                 this.makeToast("Error","Error al guardar","error");
+                 this.makeToast("Error","Error al guardar","danger");
             })
         },
         salir(){
