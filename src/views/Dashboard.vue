@@ -2,7 +2,10 @@
   <div>
       <Header/>
       <h1>Lista de Pacientes</h1>
-      <div class="container">
+      <div class="container izquierda">
+        <button class="btn btn-primary" v-on:click="nuevo()" >Nuevo paciente</button>
+                <br><br>
+
           <div class="row">
           <table class="table table-bordered">
     <thead>
@@ -50,7 +53,10 @@ export default {
     methods:{
         editar(id){
             this.$router.push('/editar/' + id)
-        }
+        },
+        nuevo(){
+                this.$router.push('/nuevo');
+            }
     },
     mounted: function(){
         let direccion = "http://localhost/APIPHPMYSQL/pacientes?page=" + this.paginas;
@@ -63,5 +69,7 @@ export default {
 </script>
 
 <style scoped>
-
+.izquierda{
+        text-align: left;
+    }
 </style>

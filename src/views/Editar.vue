@@ -77,7 +77,7 @@ components:{
         },
         data:function(){
             return{
-                pacienteId:null,
+                // pacienteId:null,
                 pacientesform:{
                     "pacienteId" : "",
                     "nombre" : "",
@@ -127,7 +127,6 @@ components:{
                     this.pacientesform.telefono = datos.data[0].Telefono;
                     this.pacientesform.fechaNacimiento = datos.data[0].FechaNacimiento;
                     this.pacientesform.token = localStorage.getItem("token");
-                    console.log(this.pacientesform);
                 })
         }
 
